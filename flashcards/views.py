@@ -1,5 +1,15 @@
+import random
+
 from django.shortcuts import render
-from django.http import HttpResponse
+
+from .models import Flashcard
+
 
 def index(request):
-    return HttpResponse('Acro-Sec')
+    flashcards = list(Flashcard.objects.all())
+    single_flashcard = random.choice(flashcards);
+    return render(
+        request, 
+        'flashcards/index.html', 
+        {'flashcard': single_flashcard}
+    )
