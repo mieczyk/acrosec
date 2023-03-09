@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('flashcards.urls')),
+    path('', include(('flashcards.urls', 'flashcards'), namespace='flashcards')),
     path('admin/', admin.site.urls),
 ]
