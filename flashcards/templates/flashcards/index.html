@@ -12,5 +12,10 @@
       <input type="text" name="answer">
       <input type="submit" value="Check">
     </form>
+
+    {% if answered %}
+      <h2>{{ is_answer_correct|yesno:'CORRECT,INCORRECT' }}</h2>
+      <p>{{ flashcard.answer }}</p>
+    {% endif %}
   </body>
 </html>

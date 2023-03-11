@@ -15,10 +15,19 @@ def index(request):
 
 def check_answer(request, flashcard_id):
     flashcard = get_object_or_404(Flashcard, pk=flashcard_id)
+    
+    is_answer_correct = False
+    answered = False
     if request.method == 'POST':
-        print(request.POST['answer'])
+        answered = True
+        is_answer_correct = flashcard.is_answer_correct(request.POST['answer'])    
+
     return render(
         request, 
         'flashcards/index.html',
-        {'flashcard': flashcard}
+        {
+            'flashcard': flashcard,
+            'answered': answered,
+            'is_answer_correct': is_answer_correct
+        }
     )
