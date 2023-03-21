@@ -22,7 +22,7 @@ class Flashcard(models.Model):
         return self.__normalize_answer(self.answer) == self.__normalize_answer(given_answer)
     
     def __normalize_answer(self, answer: str) -> List[str]:
-        conjunctions = ['and', 'or']
+        conjunctions = ['and']
         answer = answer.lower()
         return [word for word in re.split(r'[\s\W]+', answer) if word not in conjunctions]
     
