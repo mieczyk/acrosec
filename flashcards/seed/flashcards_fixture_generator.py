@@ -2,6 +2,20 @@ import os, re, json
 
 from pypdf import PdfReader
 
+def check_for_edge_case_and_handle(flashcard):
+    answer = flashcard['fields']['answer']
+
+    if answer == 'Privileged Access Management':
+        flashcard['fields']['question'] = 'PAM (access)'
+    elif answer == 'Pluggable Authentication Modules':
+        flashcard['fields']['question'] = 'PAM (auth)'
+    elif answer == 'DSS Payment Card Industry Data Security Standard':
+        flashcard['fields']['question'] = 'PCI DSS'
+        flashcard['fields']['answer'] = 'Payment Card Industry Data Security Standard'
+    elif answer == 'OTG USB On-The-Go':
+        flashcard['fields']['question'] = 'USB OTG'
+        flashcard['fields']['answer'] = 'Universal Serial Bus On-The-Go'
+
 if __name__ == '__main__':
     # Open the attached PDF file with exam objectives.
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -56,7 +70,13 @@ if __name__ == '__main__':
                     }
                 })
                 idx += 1
+
+            check_for_edge_case_and_handle(flashcards[idx-1])
     
+    # Remove duplicated acronyms (present in the original PDF document).
+    unique_answers = {card['fields']['answer']:card for card in flashcards}
+    flashcards = [card for card in unique_answers.values()]
+
     # Dump flashcard objects to the JSON file.
     with open(os.path.join(script_dir, '0001_Flashcard.json'), 'w', encoding='utf-8') as f:
         json.dump(flashcards, f, ensure_ascii=False)
