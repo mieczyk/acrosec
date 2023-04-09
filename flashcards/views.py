@@ -1,16 +1,22 @@
 import random
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Flashcard
 
-def index(request):
+def home(request):
+    if request.method == 'POST':
+        request.session['nickname'] = request.POST.get('nickname')
+        return redirect('/start')
+    return render(request, 'flashcards/home.html')
+
+def start(request):
     flashcards = list(Flashcard.objects.all())
     single_flashcard = random.choice(flashcards);
     return render(
         request, 
-        'flashcards/index.html', 
-        {'flashcard': single_flashcard}
+        'flashcards/start.html', 
+        {'flashcard': single_flashcard, 'nickname': request.session['nickname']}
     )
 
 def check_answer(request, flashcard_id):
@@ -24,7 +30,7 @@ def check_answer(request, flashcard_id):
 
     return render(
         request, 
-        'flashcards/index.html',
+        'flashcards/start.html',
         {
             'flashcard': flashcard,
             'answered': answered,
