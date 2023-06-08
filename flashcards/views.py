@@ -4,6 +4,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Flashcard
 
+def welcome(request):
+    return render(request, "flashcards/welcome.html")
+
 def home(request):
     if request.method == 'POST':
         request.session['nickname'] = request.POST.get('nickname')

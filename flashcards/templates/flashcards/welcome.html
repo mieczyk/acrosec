@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h1>
+        {% blocktrans with nickname="MIECZYK" %}
+            "Hello, {{ nickname }}!"
+        {% endblocktrans %}
+    </h1>
+    <h2>{% trans "What do want to do?" %}</h2>
+{% endblock %}
+
